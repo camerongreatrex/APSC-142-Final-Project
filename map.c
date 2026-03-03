@@ -37,18 +37,12 @@ static void printc(char c) {
 }
 
 void print_map(void) {
-    // Open the map.txt file
-    FILE *fileMap = fopen("map.txt", "r");
-    // if the file is empty
-    if (fileMap == NULL || fgetc(fileMap) == EOF) {
-        printf("Error opening map file\n");
-    } else {
-        char c;
-        while ((c = fgetc(fileMap)) != EOF) {
-            printc(c);
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            printc(map[y * width + x]);
         }
+        printf("\n");
     }
-    fclose(fileMap);
 }
 
 
@@ -56,7 +50,7 @@ void print_revealed_map(int player_y, int player_x) {
     // Only the map within PLAYER_VISION_DISTANCE of the player (including diagonals) should be printed
 }
 
-int locate_character(int* character_y, int* character_x, char character) {
+int locate_character(int *character_y, int *character_x, char character) {
     // Attempt to find the character in the map and return a status code indicating
     // if they were present
     return FOUND_CHARACTER;
