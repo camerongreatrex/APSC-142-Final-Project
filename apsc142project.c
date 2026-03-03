@@ -108,6 +108,16 @@ int main(void) {
         // move the player only if they haven't been caught
         if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == KEEP_GOING) {
             move_character(&player_y, &player_x, input, PLAYER);
+        } else {
+            // If the player is caught, reset the map
+            map = NULL;
+            // Reset the player position
+            player_y = 5;
+            player_x = 5;
+            // Reset the Minotaur position
+            minotaur_y = 9;
+            minotaur_x = 8;
+            // Reset the charge direction
         }
     } // quit if we hit the end of input
 

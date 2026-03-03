@@ -53,7 +53,20 @@ void print_revealed_map(int player_y, int player_x) {
 int locate_character(int *character_y, int *character_x, char character) {
     // Attempt to find the character in the map and return a status code indicating
     // if they were present
-    return FOUND_CHARACTER;
+
+    if (character_y == NULL || character_x == NULL) {
+        return CHARACTER_NOT_FOUND;
+    }
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            if (map[y * width + x] == character) {
+                *character_y = y;
+                *character_x = x;
+                return FOUND_CHARACTER;
+            }
+        }
+    }
+    return CHARACTER_NOT_FOUND;
 }
 
 
