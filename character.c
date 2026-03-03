@@ -120,8 +120,8 @@ int move_character(int *y, int *x, char direction, char character) {
         return MOVED_WALL;
     }
     // Move is valid — update map
-    map[*y * width + *x] = EMPTY; // clear old spot
-    map[new_y * width + new_x] = character; // place character
+    map[*y * width + *x] = EMPTY; // replace old spot with EMPTY
+    map[new_y * width + new_x] = character; // update new spot with character
 
     // Update coordinates
     *y = new_y;
