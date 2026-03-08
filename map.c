@@ -47,7 +47,19 @@ void print_map(void) {
 
 
 void print_revealed_map(int player_y, int player_x) {
-    // Only the map within PLAYER_VISION_DISTANCE of the player (including diagonals) should be printed
+    for (int dy = -PLAYER_VISION_DISTANCE; dy <= PLAYER_VISION_DISTANCE; dy++) {
+        for (int dx = -PLAYER_VISION_DISTANCE; dx <= PLAYER_VISION_DISTANCE; dx++) {
+            int y = player_y + dy;
+            int x = player_x + dx;
+            // Check bounds before printing map tile
+            if (y >= 0 && y < height && x >= 0 && x < width) {
+                printc(map[y * width + x]);
+            } else {
+                printc(EMPTY);
+            }
+        }
+        printf("\n");
+    }
 }
 
 int locate_character(int *character_y, int *character_x, char character) {

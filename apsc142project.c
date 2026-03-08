@@ -34,7 +34,7 @@ int width, height;
 #define HARDCODED_WIDTH 11
 #define HARDCODED_HEIGHT 12
 char hardcoded_map[] = {
-    WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL,
+    WALL, WALL, WALL, WALL, EMPTY, WALL, WALL, WALL, WALL, WALL, WALL,
     WALL, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, WALL,
     WALL, EMPTY, WALL, WALL, EMPTY, WALL, EMPTY, WALL, WALL, EMPTY, WALL,
     WALL, EMPTY, WALL, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, WALL, EMPTY, WALL,
@@ -99,8 +99,14 @@ int main(void) {
         // Print the map
         print_map();
 
+        // Print the revealed map
+        // print_revealed_map(player_y, player_x);
+
         // Get a character - blocks until one is input
         input = getch();
+
+        // Check if the player has won already
+        check_win(player_y, player_x);
 
         // update the minotaur
         update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
@@ -108,16 +114,6 @@ int main(void) {
         // move the player only if they haven't been caught
         if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == KEEP_GOING) {
             move_character(&player_y, &player_x, input, PLAYER);
-        } else {
-            // If the player is caught, reset the map
-            map = NULL;
-            // Reset the player position
-            player_y = 5;
-            player_x = 5;
-            // Reset the Minotaur position
-            minotaur_y = 9;
-            minotaur_x = 8;
-            // Reset the charge direction
         }
     } // quit if we hit the end of input
 
@@ -126,7 +122,6 @@ int main(void) {
 }
 
 void update_minotaur(int player_y, int player_x, int *minotaur_y, int *minotaur_x, char *charge_direction) {
-
     // If a charge is not in progress, see if the Minotaur can see the player
     if (*charge_direction == SEES_NOTHING) {
         char sight_direction = sees_player(player_y, player_x, *minotaur_y, *minotaur_x);
