@@ -41,11 +41,11 @@ void print_map(void) {
         for (int x = 0; x < width; x++) {
             printc(map[y * width + x]);
             if (x < width - 1) {
-                printf(" ");  // plain space, no colour codes
+                printc(EMPTY);  // plain space, no colour codes
             }
         }
         if (y < height - 1) {
-            printf(" ");  // plain space, no colour codes
+            printc(EMPTY);  // plain space, no colour codes
         }
         printf("\n");
     }
