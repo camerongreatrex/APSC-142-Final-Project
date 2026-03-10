@@ -91,6 +91,9 @@ int main(void) {
     // Loop until we hit the end of input
     // Input holds the user input
     char input = 0;
+
+    //print the map first for gradescope
+    print_map();
     while (input != EOF && input != 4) {
         // check win/loss immediately after player moves, before reprint
         if (check_win(player_y, player_x) == YOU_WIN) {
@@ -102,9 +105,6 @@ int main(void) {
             exit(0);
         }
 
-        //print the map
-        print_map();
-
         //get user input
         input = getch();
 
@@ -115,6 +115,10 @@ int main(void) {
 
         // update minotaur after player moves
         update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
+
+        //print the map
+        print_map();
+
     } // quit if we hit the end of input
 
     // You must return the correct error code from defines.h from main depending on what happened
