@@ -92,9 +92,10 @@ int main(void) {
     // Input holds the user input
     char input = 0;
 
-    //print the map first for gradescope
-    print_map();
     while (input != EOF && input != 4) {
+        //print the map
+        print_map();
+
         // check win/loss immediately after player moves, before reprint
         if (check_win(player_y, player_x) == YOU_WIN) {
             printf("Congratulations! You win!\n");
@@ -114,10 +115,7 @@ int main(void) {
         }
 
         // update minotaur after player moves
-        update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
-
-        //print the map
-        print_map();
+        //update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
 
     } // quit if we hit the end of input
 
