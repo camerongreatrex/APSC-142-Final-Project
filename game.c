@@ -5,7 +5,6 @@
 #include "game.h"
 
 #include <stdio.h>
-#include <_stdlib.h>
 
 extern char *map;
 extern int height;
