@@ -13,8 +13,8 @@ extern int width;
 int check_win(int player_y, int player_x) {
     // The player wins if they escape the map boundaries (i.e., they are in a place an outer wall tile should be).
     // Player escapes the map boundaries
-    if (player_y < 0 || player_y > height ||
-        player_x < 0 || player_x > width) {
+    if (player_y <= 0 || player_y >= height - 1 ||
+        player_x <= 0 || player_x >= width - 1) {
         printf("Congrats you win!\n");
         return YOU_WIN;
     }
