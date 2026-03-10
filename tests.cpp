@@ -54,44 +54,81 @@ TEST_SUITE_BEGIN("Character tests");
 // tests for sees_player
 
 // tests for move_character
-TEST_CASE("move_character x and y are valid directions") {
-
+TEST_CASE("move_character moves correctly") {
     int y = 5;
     int x = 5;
+    map[y * width + x] = PLAYER;
+    map[y * width + (x + 1)] = EMPTY;
+    move_character(&y, &x, RIGHT, PLAYER);
 
-    move_character(&y, &x, 1, -1);
-
-    CHECK(y == 6);
-    CHECK(x == 4);
+    CHECK(y == 5);
+    CHECK(x == 6);
 }
+
+TEST_CASE("move_character invalid direction") {
+    int y = 5;
+    int x = 5;
+    int result = move_character(&y, &x, 'Z', PLAYER);
+
+    CHECK(result == MOVED_INVALID_DIRECTION);
+}
+
+TEST_CASE("move_character blocked by wall") {
+    int y = 5;
+    int x = 5;
+    map[y * width + x] = PLAYER;
+    map[y * width + (x + 1)] = WALL;
+    int result = move_character(&y, &x, RIGHT, PLAYER);
+
+    CHECK(result == MOVED_WALL);
+}
+
+TEST_CASE("move_character moves into empty space") {
+    int y = 3;
+    int x = 3;
+    map[y * width + x] = PLAYER;
+    map[y * width + (x - 1)] = EMPTY;
+    int result = move_character(&y, &x, LEFT, PLAYER);
+
+    CHECK(result == MOVED_OKAY);
+    CHECK(x == 2);
+}
+
 // tests for charge_minotaur
 
 // tests for locate character
 TEST_CASE("locate_character finds player") {
-    int y = 1;
-    int x = 1;
+    map[4 * width + 4] = PLAYER;
+    int y = -1;
+    int x = -1;
     int result = locate_character(PLAYER, &y, &x);
 
     CHECK(result == FOUND_CHARACTER);
-    CHECK(y >= 0);
-    CHECK(x >= 0);
+    CHECK(y == 4);
+    CHECK(x == 4);
 }
 
 TEST_CASE("locate_character finds minotaur") {
-    int y = 1;
-    int x = 1;
+    map[7 * width + 2] = MINOTAUR;
+    int y = -1;
+    int x = -1;
     int result = locate_character(MINOTAUR, &y, &x);
 
     CHECK(result == FOUND_CHARACTER);
-    CHECK(y >= 0);
-    CHECK(x >= 0);
+    CHECK(y == 7);
+    CHECK(x == 2);
 }
 
 TEST_CASE("locate_character returns not found when missing") {
-    int y = 1;
-    int x = 1;
+    int y = 0;
+    int x = 0;
     int result = locate_character('Z', &y, &x);
 
+    CHECK(result == CHARACTER_NOT_FOUND);
+}
+
+TEST_CASE("locate_character handles NULL pointers") {
+    int result = locate_character(PLAYER, NULL, NULL);
     CHECK(result == CHARACTER_NOT_FOUND);
 }
 
