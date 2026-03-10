@@ -92,6 +92,16 @@ int main(void) {
     // Input holds the user input
     char input = 0;
     while (input != EOF && input != 4) {
+        // check win/loss immediately after player moves, before reprint
+        if (check_win(player_y, player_x) == YOU_WIN) {
+            printf("Congratulations! You win!\n");
+            exit(0);
+        }
+        if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == YOU_LOSE) {
+            printf("Sorry, you lose.\n");
+            exit(0);
+        }
+
         //print the map
         print_map();
 
@@ -103,25 +113,8 @@ int main(void) {
             move_character(&player_y, &player_x, input, PLAYER);
         }
 
-        // check win/loss immediately after player moves, before reprint
-        if (check_win(player_y, player_x) == YOU_WIN) {
-            printf("Congratulations! You win!\n");
-            exit(0);
-        }
-        if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == YOU_LOSE) {
-            printf("Sorry, you lose.\n");
-            exit(0);
-        }
-
         // update minotaur after player moves
         update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
-
-        // check loss again in case minotaur moved onto player
-        if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == YOU_LOSE) {
-            print_map();
-            printf("Sorry, you lose.\n");
-            exit(0);
-        }
     } // quit if we hit the end of input
 
     // You must return the correct error code from defines.h from main depending on what happened
