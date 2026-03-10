@@ -93,8 +93,8 @@ int main(void) {
     char input = 0;
     while (input != EOF && input != 4) {
         // Debug
-        printf("Player coords: %d %d\n", player_y, player_x);
-        printf("Minotaur coords: %d %d\n", minotaur_y, minotaur_x);
+        //printf("Player coords: %d %d\n", player_y, player_x);
+        //printf("Minotaur coords: %d %d\n", minotaur_y, minotaur_x);
 
         // Print the map
         print_map();
