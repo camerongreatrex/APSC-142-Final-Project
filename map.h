@@ -86,3 +86,4 @@ int locate_character(char character, int* character_y, int* character_x);
 
 
 #endif //PROJECT_MAP_H
+
