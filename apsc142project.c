@@ -93,9 +93,6 @@ int main(void) {
     char input = 0;
 
     while (input != EOF && input != 4) {
-        //print the map
-        print_map();
-
         // check win/loss immediately after player moves, before reprint
         if (check_win(player_y, player_x) == YOU_WIN) {
             printf("Congratulations! You win!\n");
@@ -105,6 +102,9 @@ int main(void) {
             printf("Sorry, you lose.\n");
             exit(0);
         }
+
+        //print the map
+        print_map();
 
         //get user input
         input = getch();
