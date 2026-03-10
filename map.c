@@ -81,7 +81,7 @@ int locate_character(char character, int *character_y, int *character_x) {
 //             }
 //         }
 //     }
-//     return CHARACTER_NOT_FOUND;
+     return CHARACTER_NOT_FOUND;
  }
 
 
