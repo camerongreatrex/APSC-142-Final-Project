@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 // make sure not to modify anything in this extern block
-extern "C"{
+extern "C" {
 #include "defines.h"
 #include "map.h"
 #include "character.h"
@@ -26,6 +26,20 @@ int width, height;
 
 /* Tests for map.c */
 TEST_SUITE_BEGIN("Map tests");
+// Tests for print_map
+TEST_CASE("print_map runs without crashing") {
+    width = 3;
+    height = 2;
+
+    char test_map[] = {
+        PLAYER, EMPTY, WALL,
+        EMPTY, MINOTAUR, EMPTY
+    };
+
+    map = test_map;
+    print_map();
+    CHECK(true);
+}
 
 // Tests for load_map
 TEST_CASE("A test for load_map") {
@@ -49,7 +63,43 @@ TEST_SUITE_BEGIN("Character tests");
 TEST_SUITE_BEGIN("Game tests");
 
 // tests for check_win
+TEST_CASE("check_win continues when player inside map") {
+    width = 10;
+    height = 10;
+    CHECK(check_win(5,5) == KEEP_GOING);
+}
 
-// test for check_loss
+TEST_CASE("check_win when player reaches top outer wall") {
+    width = 10;
+    height = 10;
+    CHECK(check_win(0,5) == YOU_WIN);
+}
+
+TEST_CASE("check_win when player reaches left outer wall") {
+    width = 10;
+    height = 10;
+    CHECK(check_win(5,0) == YOU_WIN);
+}
+
+TEST_CASE("check_win when player goes past bottom boundary") {
+    width = 10;
+    height = 10;
+    CHECK(check_win(10,5) == YOU_WIN);
+}
+
+TEST_CASE("check_win when player goes past right boundary") {
+    width = 10;
+    height = 10;
+    CHECK(check_win(5,10) == YOU_WIN);
+}
+
+// tests for check_loss
+TEST_CASE("check_loss detects player caught") {
+    CHECK(check_loss(5,5,5,5) == YOU_LOSE);
+}
+
+TEST_CASE("check_loss continues when player not caught") {
+    CHECK(check_loss(5,5,4,5) == KEEP_GOING);
+}
 
 TEST_SUITE_END();

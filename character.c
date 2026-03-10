@@ -15,7 +15,8 @@ char sees_player(int player_y, int player_x, int minotaur_y, int minotaur_x) {
     // check if neither the x nor y coordinate is the same as the player
     // if there's a wall in between, they can't see
     // if one of them is the same, check if the path in between is clear
-    // if the Minotaur can see the player, return the direction they must look (LEFT, RIGHT, UP, DOWN
+    // if the Minotaur can see the player, return the direction they must look (LEFT, RIGHT, UP, DOWN)
+
     if (player_x == minotaur_x && player_y == minotaur_y) {
         return CAUGHT_PLAYER;
     }
@@ -85,6 +86,7 @@ int move_character(int *y, int *x, char direction, char character) {
     // set character in the new position in map
     // update the x/y coordinate pointers
 
+    // Check for NULL pointers
     if (y == NULL || x == NULL) {
         return MOVED_INVALID_DIRECTION;
     }
@@ -94,7 +96,7 @@ int move_character(int *y, int *x, char direction, char character) {
         direction != UP && direction != DOWN) {
         return MOVED_INVALID_DIRECTION;
     }
-
+    // Placeholder value, new_x and new_y, to update the position of the character
     int new_y = *y;
     int new_x = *x;
 
