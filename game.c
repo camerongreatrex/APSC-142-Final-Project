@@ -5,6 +5,7 @@
 #include "game.h"
 
 #include <stdio.h>
+#include <_stdlib.h>
 
 extern char *map;
 extern int height;
@@ -24,6 +25,7 @@ int check_win(int player_y, int player_x) {
 
 int check_loss(int player_y, int player_x, int minotaur_y, int minotaur_x) {
     // The player loses if they are caught by the Minotaur
+    // Player position equals the minotaur position
     if (player_x == minotaur_x && player_y == minotaur_y) {
         printf("You lose! Better luck next time!\n");
         return YOU_LOSE;
