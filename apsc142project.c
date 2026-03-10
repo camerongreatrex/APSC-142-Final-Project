@@ -92,28 +92,35 @@ int main(void) {
     // Input holds the user input
     char input = 0;
     while (input != EOF && input != 4) {
-        // Debug
-        //printf("Player coords: %d %d\n", player_y, player_x);
-        //printf("Minotaur coords: %d %d\n", minotaur_y, minotaur_x);
-
-        // Print the map
+        //print the map
         print_map();
 
-        // Print the revealed map
-        // print_revealed_map(player_y, player_x);
-
-        // Get a character - blocks until one is input
+        //get user input
         input = getch();
 
-        // Check if the player has won already
-        check_win(player_y, player_x);
-
-        // update the minotaur
-         update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
-
-        // move the player only if they haven't been caught
+        // move the player first
         if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == KEEP_GOING) {
             move_character(&player_y, &player_x, input, PLAYER);
+        }
+
+        // check win/loss immediately after player moves, before reprint
+        if (check_win(player_y, player_x) == YOU_WIN) {
+            printf("Congratulations! You win!\n");
+            exit(0);
+        }
+        if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == YOU_LOSE) {
+            printf("Sorry, you lose.\n");
+            exit(0);
+        }
+
+        // update minotaur after player moves
+        update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
+
+        // check loss again in case minotaur moved onto player
+        if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == YOU_LOSE) {
+            print_map();
+            printf("Sorry, you lose.\n");
+            exit(0);
         }
     } // quit if we hit the end of input
 
