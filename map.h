@@ -80,7 +80,7 @@ char * load_map(char * filename, int * map_height, int *map_width);
  */
 #define CHARACTER_NOT_FOUND 0
 #define FOUND_CHARACTER 1
-int locate_character(int* character_y, int* character_x, char character);
+int locate_character(char character, int* character_y, int* character_x);
 
 /** Other function prototypes can go below here **/
 
