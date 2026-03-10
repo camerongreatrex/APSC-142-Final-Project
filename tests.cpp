@@ -54,13 +54,40 @@ TEST_SUITE_BEGIN("Character tests");
 // tests for sees_player
 
 // tests for move_character
-TEST_CASE("move_character moves correctly") {
+TEST_CASE("move_character moves left") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    int y = 2, x = 2;
+    CHECK(move_character(&y, &x, LEFT, PLAYER) == MOVED_OKAY);
+    CHECK(y == 2); CHECK(x == 1);
+}
+
+TEST_CASE("move_character moves right") {
     width = 5; height = 5;
     char test_map[25] = {EMPTY};
     map = test_map;
     int y = 2, x = 2;
     CHECK(move_character(&y, &x, RIGHT, PLAYER) == MOVED_OKAY);
     CHECK(y == 2); CHECK(x == 3);
+}
+
+TEST_CASE("move_character moves up") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    int y = 2, x = 2;
+    CHECK(move_character(&y, &x, UP, PLAYER) == MOVED_OKAY);
+    CHECK(y == 1); CHECK(x == 2);
+}
+
+TEST_CASE("move_character moves down") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    int y = 2, x = 2;
+    CHECK(move_character(&y, &x, DOWN, PLAYER) == MOVED_OKAY);
+    CHECK(y == 3); CHECK(x == 2);
 }
 
 TEST_CASE("move_character invalid direction") {
