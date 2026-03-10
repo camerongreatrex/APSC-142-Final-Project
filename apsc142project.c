@@ -109,7 +109,7 @@ int main(void) {
         check_win(player_y, player_x);
 
         // update the minotaur
-        update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
+        // update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
 
         // move the player only if they haven't been caught
         if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == KEEP_GOING) {
