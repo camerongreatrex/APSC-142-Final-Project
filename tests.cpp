@@ -54,10 +54,46 @@ TEST_SUITE_BEGIN("Character tests");
 // tests for sees_player
 
 // tests for move_character
+TEST_CASE("move_character x and y are valid directions") {
 
+    int y = 5;
+    int x = 5;
+
+    move_character(&y, &x, 1, -1);
+
+    CHECK(y == 6);
+    CHECK(x == 4);
+}
 // tests for charge_minotaur
 
 // tests for locate character
+TEST_CASE("locate_character finds player") {
+    int y = 1;
+    int x = 1;
+    int result = locate_character(PLAYER, &y, &x);
+
+    CHECK(result == FOUND_CHARACTER);
+    CHECK(y >= 0);
+    CHECK(x >= 0);
+}
+
+TEST_CASE("locate_character finds minotaur") {
+    int y = 1;
+    int x = 1;
+    int result = locate_character(MINOTAUR, &y, &x);
+
+    CHECK(result == FOUND_CHARACTER);
+    CHECK(y >= 0);
+    CHECK(x >= 0);
+}
+
+TEST_CASE("locate_character returns not found when missing") {
+    int y = 1;
+    int x = 1;
+    int result = locate_character('Z', &y, &x);
+
+    CHECK(result == CHARACTER_NOT_FOUND);
+}
 
 /* tests for game.c */
 TEST_SUITE_BEGIN("Game tests");
