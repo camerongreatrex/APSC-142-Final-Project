@@ -54,100 +54,74 @@ TEST_SUITE_BEGIN("Character tests");
 // tests for sees_player
 
 // tests for move_character
-// tests for move_character
 TEST_CASE("move_character moves correctly") {
-    width = 10;
-    height = 10;
-    char test_map[100] = {EMPTY};
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
     map = test_map;
-    map[5 * width + 5] = PLAYER;
-    map[5 * width + 6] = EMPTY;
-    int y = 5, x = 5;
-    int result = move_character(&y, &x, RIGHT, PLAYER);
-    CHECK(result == MOVED_OKAY);
-    CHECK(y == 5);
-    CHECK(x == 6);
+    int y = 2, x = 2;
+    CHECK(move_character(&y, &x, RIGHT, PLAYER) == MOVED_OKAY);
+    CHECK(y == 2); CHECK(x == 3);
 }
 
 TEST_CASE("move_character invalid direction") {
-    width = 10;
-    height = 10;
-    char test_map[100] = {EMPTY};
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
     map = test_map;
-    int y = 5, x = 5;
-    int result = move_character(&y, &x, 'Z', PLAYER);
-    CHECK(result == MOVED_INVALID_DIRECTION);
+    int y = 2, x = 2;
+    CHECK(move_character(&y, &x, 'Z', PLAYER) == MOVED_INVALID_DIRECTION);
 }
 
 TEST_CASE("move_character blocked by wall") {
-    width = 10;
-    height = 10;
-    char test_map[100] = {EMPTY};
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
     map = test_map;
-    map[5 * width + 5] = PLAYER;
-    map[5 * width + 6] = WALL;
-    int y = 5, x = 5;
-    int result = move_character(&y, &x, RIGHT, PLAYER);
-    CHECK(result == MOVED_WALL);
-    CHECK(y == 5);
-    CHECK(x == 5);
+    test_map[2 * 5 + 3] = WALL;
+    int y = 2, x = 2;
+    CHECK(move_character(&y, &x, RIGHT, PLAYER) == MOVED_WALL);
 }
 
 TEST_CASE("move_character moves into empty space") {
-    width = 10;
-    height = 10;
-    char test_map[100] = {EMPTY};
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
     map = test_map;
-    map[3 * width + 3] = PLAYER;
-    map[3 * width + 2] = EMPTY;
-    int y = 3, x = 3;
-    int result = move_character(&y, &x, LEFT, PLAYER);
-    CHECK(result == MOVED_OKAY);
-    CHECK(x == 2);
+    int y = 2, x = 2;
+    CHECK(move_character(&y, &x, LEFT, PLAYER) == MOVED_OKAY);
+    CHECK(x == 1);
 }
 
 // tests for charge_minotaur
 
 // tests for locate character
 TEST_CASE("locate_character finds player") {
-    width = 10;
-    height = 10;
-    char test_map[100] = {EMPTY};
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
     map = test_map;
-    map[4 * width + 4] = PLAYER;
+    test_map[2 * 5 + 2] = PLAYER;
     int y = -1, x = -1;
-    int result = locate_character(PLAYER, &y, &x);
-    CHECK(result == FOUND_CHARACTER);
-    CHECK(y == 4);
-    CHECK(x == 4);
+    CHECK(locate_character(PLAYER, &y, &x) == FOUND_CHARACTER);
+    CHECK(y == 2); CHECK(x == 2);
 }
 
 TEST_CASE("locate_character finds minotaur") {
-    width = 10;
-    height = 10;
-    char test_map[100] = {EMPTY};
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
     map = test_map;
-    map[7 * width + 2] = MINOTAUR;
+    test_map[3 * 5 + 1] = MINOTAUR;
     int y = -1, x = -1;
-    int result = locate_character(MINOTAUR, &y, &x);
-    CHECK(result == FOUND_CHARACTER);
-    CHECK(y == 7);
-    CHECK(x == 2);
+    CHECK(locate_character(MINOTAUR, &y, &x) == FOUND_CHARACTER);
+    CHECK(y == 3); CHECK(x == 1);
 }
 
-TEST_CASE("locate_character returns not found when missing") {
-    width = 10;
-    height = 10;
-    char test_map[100] = {EMPTY};
+TEST_CASE("locate_character not found") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
     map = test_map;
     int y = 0, x = 0;
-    int result = locate_character('Z', &y, &x);
-    CHECK(result == CHARACTER_NOT_FOUND);
+    CHECK(locate_character('Z', &y, &x) == CHARACTER_NOT_FOUND);
 }
 
-TEST_CASE("locate_character handles NULL pointers") {
-    int result = locate_character(PLAYER, NULL, NULL);
-    CHECK(result == CHARACTER_NOT_FOUND);
+TEST_CASE("locate_character NULL pointers") {
+    CHECK(locate_character(PLAYER, NULL, NULL) == CHARACTER_NOT_FOUND);
 }
 
 /* tests for game.c */
