@@ -44,6 +44,9 @@ void print_map(void) {
                 printf(" ");  // plain space, no colour codes
             }
         }
+        if (y < height - 1) {
+            printf(" ");  // plain space, no colour codes
+        }
         printf("\n");
     }
 }
