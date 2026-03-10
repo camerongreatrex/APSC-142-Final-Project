@@ -41,7 +41,7 @@ void print_map(void) {
         for (int x = 0; x < width; x++) {
             printc(map[y * width + x]);
             if (x < width - 1) {
-                printc(EMPTY);  // plain space, no colour codes
+                printc(EMPTY); // plain space, no colour codes
             }
         }
         printf("\n");
@@ -49,40 +49,40 @@ void print_map(void) {
 }
 
 
- void print_revealed_map(int player_y, int player_x) {
-     for (int dy = -PLAYER_VISION_DISTANCE; dy <= PLAYER_VISION_DISTANCE; dy++) {
-         for (int dx = -PLAYER_VISION_DISTANCE; dx <= PLAYER_VISION_DISTANCE; dx++) {
-             int y = player_y + dy;
-             int x = player_x + dx;
-             // Check bounds before printing map tile
-             if (y >= 0 && y < height && x >= 0 && x < width) {
-                 printc(map[y * width + x]);
-             } else {
-                 printc(EMPTY);
-             }
-         }
-         printf("\n");
-     }
- }
+void print_revealed_map(int player_y, int player_x) {
+    for (int dy = -PLAYER_VISION_DISTANCE; dy <= PLAYER_VISION_DISTANCE; dy++) {
+        for (int dx = -PLAYER_VISION_DISTANCE; dx <= PLAYER_VISION_DISTANCE; dx++) {
+            int y = player_y + dy;
+            int x = player_x + dx;
+            // Check bounds before printing map tile
+            if (y >= 0 && y < height && x >= 0 && x < width) {
+                printc(map[y * width + x]);
+            } else {
+                printc(EMPTY);
+            }
+        }
+        printf("\n");
+    }
+}
 
 int locate_character(char character, int *character_y, int *character_x) {
-     // Attempt to find the character in the map and return a status code indicating
-     // if they were present
+    // Attempt to find the character in the map and return a status code indicating
+    // if they were present
 
-     if (character_y == NULL || character_x == NULL) {
-         return CHARACTER_NOT_FOUND;
-     }
-     for (int x = 0; x < width; x++) {
-         for (int y = 0; y < height; y++) {
-             if (map[y * width + x] == character) {
-                 *character_y = y;
-                 *character_x = x;
-                 return FOUND_CHARACTER;
-             }
-         }
-     }
-     return CHARACTER_NOT_FOUND;
- }
+    if (character_y == NULL || character_x == NULL) {
+        return CHARACTER_NOT_FOUND;
+    }
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            if (map[y * width + x] == character) {
+                *character_y = y;
+                *character_x = x;
+                return FOUND_CHARACTER;
+            }
+        }
+    }
+    return CHARACTER_NOT_FOUND;
+}
 
 
 char *load_map(char *filename, int *map_height, int *map_width) {
