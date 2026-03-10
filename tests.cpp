@@ -116,6 +116,21 @@ TEST_CASE("move_character moves into empty space") {
     CHECK(x == 1);
 }
 
+TEST_CASE("move_character NULL pointers") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    CHECK(move_character(NULL, NULL, RIGHT, PLAYER) == MOVED_INVALID_DIRECTION);
+}
+
+TEST_CASE("move_character out of bounds") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    int y = 0, x = 0;
+    CHECK(move_character(&y, &x, UP, PLAYER) == MOVED_WALL);
+}
+
 // tests for charge_minotaur
 
 // tests for locate character
