@@ -41,7 +41,7 @@ void print_map(void) {
         for (int x = 0; x < width; x++) {
             printc(map[y * width + x]);
             if (x < width - 1) {
-                printc(EMPTY);
+                printf(" ");
             }
         }
         printf("\n");
