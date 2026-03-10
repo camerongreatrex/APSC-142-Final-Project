@@ -44,15 +44,12 @@ void print_map(void) {
                 printc(EMPTY);  // plain space, no colour codes
             }
         }
-        if (y < height - 1) {
-            printc(EMPTY);  // plain space, no colour codes
-        }
         printf("\n");
     }
 }
 
 
-// void print_revealed_map(int player_y, int player_x) {
+ void print_revealed_map(int player_y, int player_x) {
 //     for (int dy = -PLAYER_VISION_DISTANCE; dy <= PLAYER_VISION_DISTANCE; dy++) {
 //         for (int dx = -PLAYER_VISION_DISTANCE; dx <= PLAYER_VISION_DISTANCE; dx++) {
 //             int y = player_y + dy;
@@ -66,9 +63,9 @@ void print_map(void) {
 //         }
 //         printf("\n");
 //     }
-// }
+ }
 
-// int locate_character(char character, int *character_y, int *character_x) {
+int locate_character(char character, int *character_y, int *character_x) {
 //     // Attempt to find the character in the map and return a status code indicating
 //     // if they were present
 //
@@ -85,7 +82,7 @@ void print_map(void) {
 //         }
 //     }
 //     return CHARACTER_NOT_FOUND;
-// }
+ }
 
 
 char *load_map(char *filename, int *map_height, int *map_width) {
