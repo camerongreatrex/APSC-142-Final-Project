@@ -40,7 +40,9 @@ void print_map(void) {
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             printc(map[y * width + x]);
-            printf(" ");
+            if (x < width - 1) {
+                printf(" ");  // plain space, no colour codes
+            }
         }
         printf("\n");
     }
