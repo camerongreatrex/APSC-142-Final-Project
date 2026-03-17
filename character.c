@@ -136,6 +136,45 @@ int charge_minotaur(int *y, int *x, int player_y, int player_x, char charge_dire
     // call move_character twice or until a wall is hit
     // when the wall is hit, move the Minotaur into the wall in the direction it is charging
     // calculate the new coordinates
+    
+    // Check for invalid direction
+    if (charge_direction != LEFT && charge_direction != RIGHT &&
+        charge_direction != UP && charge_direction != DOWN) {
+        return MOVED_INVALID_DIRECTION;
+    }
+
+    // Charge the minotaur
+    for (int step = 0; step < MINOTAUR_CHARGE_STEP_SIZE; step++) {
+        // Move the minotaur in the direction it is charging
+        int move_result = move_character(y, x, charge_direction, MINOTAUR);
+        // If the minotaur hits a wall, calculate the position of the wall it is smashing into
+        if (move_result == MOVED_WALL) {
+            // Calculate the position of the wall the minotaur is smashing into
+            int new_y = *y;
+            int new_x = *x;
+            // Calculate the new position of the minotaur
+            if (charge_direction == LEFT) {
+                new_x--;
+            } else if (charge_direction == RIGHT){
+                new_x++;
+            } else if (charge_direction == UP) {
+                new_y--;
+            } else if (charge_direction == DOWN) {
+                new_y++;
+            }
+
+            // Only smash through if within map bounds
+            if (new_x >= 0 && new_x < width && new_y >= 0 && new_y < height) {
+                // Update the map
+                map[*y * width + *x] = EMPTY;
+                map[new_y * width + new_x] = MINOTAUR;
+                // Update the coordinates
+                *y = new_y;
+                *x = new_x;
+            }
+            return MOVED_WALL;
+        }
+    }
 
     return MOVED_OKAY;
 }

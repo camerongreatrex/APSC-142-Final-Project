@@ -87,7 +87,7 @@ int main(void) {
     // We also need the Minotaur position. Again, hardcode the starting position for now.
     int minotaur_y = 9;
     int minotaur_x = 8;
-    
+
     int isRevealed = 0;
 
     // Loop until we hit the end of input
