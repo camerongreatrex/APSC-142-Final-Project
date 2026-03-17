@@ -86,6 +86,48 @@ int locate_character(char character, int *character_y, int *character_x) {
 
 
 char *load_map(char *filename, int *map_height, int *map_width) {
-    //implement in week 4 of project
-    return NULL;
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        return NULL;
+    }
+
+    int rows = 0, cols = 0, len = 0;
+    int c;
+
+    // First pass: count rows and measure width from first row
+    while ((c = fgetc(file)) != EOF) {
+        if (c == '\n') {
+            if (rows == 0) {
+                cols = (len + 2) / 3;
+            }
+            rows++;
+            len = 0;
+        } else {
+            len++;
+        }
+    }
+
+    char *loaded_map = malloc(rows * cols);
+    if (loaded_map == NULL) {
+        fclose(file);
+        return NULL;
+    }
+
+    // Second pass: fill map using nested for loops
+    rewind(file);
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < cols; x++) {
+            loaded_map[y * cols + x] = fgetc(file); // read symbol
+            if (x < cols - 1) {
+                fgetc(file); // skip separator space 1
+                fgetc(file); // skip separator space 2
+            }
+        }
+        fgetc(file); // skip newline
+    }
+
+    fclose(file);
+    *map_height = rows;
+    *map_width = cols;
+    return loaded_map;
 }
