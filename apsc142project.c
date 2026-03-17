@@ -88,7 +88,7 @@ int main(void) {
     int minotaur_y = 9;
     int minotaur_x = 8;
 
-    int isRevealed = 0;
+    int isRevealed = 1;
 
     // Loop until we hit the end of input
     // Input holds the user input
