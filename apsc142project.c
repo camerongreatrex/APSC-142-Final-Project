@@ -103,7 +103,7 @@ int main(void) {
         // print the full map if it's revealed, otherwise print the partially revealed map
         if (isRevealed) {
             print_map();
-        // } else {
+        } //else {
         //     print_revealed_map(player_y, player_x);
         // }
 
