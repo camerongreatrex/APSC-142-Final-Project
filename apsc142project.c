@@ -107,10 +107,11 @@ int main(void) {
         print_map();
 
         // workaround minotaur moving at start of gradescope check
-        if (input !=0) {
-            // update minotaur
-            update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
-        }
+        // if (input !=0) {
+        //     // update minotaur
+        //     update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
+        // }
+        update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
 
         //get user input
         input = getch();
