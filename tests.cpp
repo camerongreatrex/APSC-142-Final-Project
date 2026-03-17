@@ -103,6 +103,22 @@ TEST_CASE("sees_player returns SEES_NOTHING when wall is between (vertical)") {
     CHECK(sees_player(0, 2, 4, 2) == SEES_NOTHING);
 }
 
+TEST_CASE("sees_player returns SEES_NOTHING when wall is between (left path)") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    test_map[2 * 5 + 2] = WALL;
+    CHECK(sees_player(2, 0, 2, 4) == SEES_NOTHING);
+}
+
+TEST_CASE("sees_player returns SEES_NOTHING when wall is between (down path)") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    test_map[2 * 5 + 2] = WALL;
+    CHECK(sees_player(4, 2, 0, 2) == SEES_NOTHING);
+}
+
 TEST_CASE("sees_player returns SEES_NOTHING when not same row or column") {
     width = 5; height = 5;
     char test_map[25] = {EMPTY};
@@ -221,6 +237,42 @@ TEST_CASE("charge_minotaur returns CAUGHT_PLAYER when minotaur reaches player") 
     test_map[2 * 7 + 3] = PLAYER;
     int y = 2, x = 1;
     CHECK(charge_minotaur(&y, &x, 2, 3, RIGHT) == CAUGHT_PLAYER);
+}
+
+TEST_CASE("charge_minotaur smashes wall going LEFT") {
+    width = 7; height = 5;
+    char test_map[35] = {EMPTY};
+    map = test_map;
+    test_map[2 * 7 + 4] = MINOTAUR;
+    test_map[2 * 7 + 3] = WALL;
+    int y = 2, x = 4;
+    CHECK(charge_minotaur(&y, &x, 2, 0, LEFT) == MOVED_WALL);
+    CHECK(y == 2); CHECK(x == 3);
+    CHECK(test_map[2 * 7 + 3] == MINOTAUR);
+}
+
+TEST_CASE("charge_minotaur smashes wall going UP") {
+    width = 5; height = 7;
+    char test_map[35] = {EMPTY};
+    map = test_map;
+    test_map[4 * 5 + 2] = MINOTAUR;
+    test_map[3 * 5 + 2] = WALL;
+    int y = 4, x = 2;
+    CHECK(charge_minotaur(&y, &x, 0, 2, UP) == MOVED_WALL);
+    CHECK(y == 3); CHECK(x == 2);
+    CHECK(test_map[3 * 5 + 2] == MINOTAUR);
+}
+
+TEST_CASE("charge_minotaur smashes wall going DOWN") {
+    width = 5; height = 7;
+    char test_map[35] = {EMPTY};
+    map = test_map;
+    test_map[2 * 5 + 2] = MINOTAUR;
+    test_map[3 * 5 + 2] = WALL;
+    int y = 2, x = 2;
+    CHECK(charge_minotaur(&y, &x, 6, 2, DOWN) == MOVED_WALL);
+    CHECK(y == 3); CHECK(x == 2);
+    CHECK(test_map[3 * 5 + 2] == MINOTAUR);
 }
 
 TEST_CASE("charge_minotaur returns MOVED_INVALID_DIRECTION for bad direction") {
