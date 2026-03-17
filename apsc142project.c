@@ -87,6 +87,8 @@ int main(void) {
     // We also need the Minotaur position. Again, hardcode the starting position for now.
     int minotaur_y = 9;
     int minotaur_x = 8;
+    
+    int isRevealed = 0;
 
     // Loop until we hit the end of input
     // Input holds the user input
@@ -103,8 +105,17 @@ int main(void) {
             exit(0);
         }
 
-        // print the map
-        print_map();
+        // toggle revealed map
+        if (input == 103) {
+            isRevealed = !isRevealed;
+        }
+        
+        // print the full map if it's revealed, otherwise print the partiallyrevealed map
+        if (isRevealed) {
+            print_map();
+        } else {
+            print_revealed_map(player_y, player_x);
+        }
 
         // update minotaur
         update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
