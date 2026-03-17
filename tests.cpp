@@ -52,6 +52,63 @@ TEST_SUITE_END();
 TEST_SUITE_BEGIN("Character tests");
 
 // tests for sees_player
+TEST_CASE("sees_player returns CAUGHT_PLAYER when on same cell") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    CHECK(sees_player(2, 2, 2, 2) == CAUGHT_PLAYER);
+}
+
+TEST_CASE("sees_player returns RIGHT when player is to the right, no walls") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    CHECK(sees_player(2, 4, 2, 1) == RIGHT);
+}
+
+TEST_CASE("sees_player returns LEFT when player is to the left, no walls") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    CHECK(sees_player(2, 0, 2, 3) == LEFT);
+}
+
+TEST_CASE("sees_player returns DOWN when player is below, no walls") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    CHECK(sees_player(4, 2, 1, 2) == DOWN);
+}
+
+TEST_CASE("sees_player returns UP when player is above, no walls") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    CHECK(sees_player(0, 2, 3, 2) == UP);
+}
+
+TEST_CASE("sees_player returns SEES_NOTHING when wall is between (horizontal)") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    test_map[2 * 5 + 2] = WALL;
+    CHECK(sees_player(2, 4, 2, 0) == SEES_NOTHING);
+}
+
+TEST_CASE("sees_player returns SEES_NOTHING when wall is between (vertical)") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    test_map[2 * 5 + 2] = WALL;
+    CHECK(sees_player(0, 2, 4, 2) == SEES_NOTHING);
+}
+
+TEST_CASE("sees_player returns SEES_NOTHING when not same row or column") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    CHECK(sees_player(0, 0, 3, 3) == SEES_NOTHING);
+}
 
 // tests for move_character
 TEST_CASE("move_character moves left") {
@@ -132,6 +189,48 @@ TEST_CASE("move_character out of bounds") {
 }
 
 // tests for charge_minotaur
+TEST_CASE("charge_minotaur moves 2 steps with no wall") {
+    width = 7; height = 5;
+    char test_map[35] = {EMPTY};
+    map = test_map;
+    test_map[2 * 7 + 2] = MINOTAUR;
+    int y = 2, x = 2;
+    CHECK(charge_minotaur(&y, &x, 2, 6, RIGHT) == MOVED_OKAY);
+    CHECK(y == 2); CHECK(x == 4);
+    CHECK(test_map[2 * 7 + 2] == EMPTY);
+    CHECK(test_map[2 * 7 + 4] == MINOTAUR);
+}
+
+TEST_CASE("charge_minotaur smashes through wall and returns MOVED_WALL") {
+    width = 7; height = 5;
+    char test_map[35] = {EMPTY};
+    map = test_map;
+    test_map[2 * 7 + 2] = MINOTAUR;
+    test_map[2 * 7 + 3] = WALL;
+    int y = 2, x = 2;
+    CHECK(charge_minotaur(&y, &x, 2, 6, RIGHT) == MOVED_WALL);
+    CHECK(y == 2); CHECK(x == 3);
+    CHECK(test_map[2 * 7 + 3] == MINOTAUR);
+}
+
+TEST_CASE("charge_minotaur returns CAUGHT_PLAYER when minotaur reaches player") {
+    width = 7; height = 5;
+    char test_map[35] = {EMPTY};
+    map = test_map;
+    test_map[2 * 7 + 1] = MINOTAUR;
+    test_map[2 * 7 + 3] = PLAYER;
+    int y = 2, x = 1;
+    CHECK(charge_minotaur(&y, &x, 2, 3, RIGHT) == CAUGHT_PLAYER);
+}
+
+TEST_CASE("charge_minotaur returns MOVED_INVALID_DIRECTION for bad direction") {
+    width = 5; height = 5;
+    char test_map[25] = {EMPTY};
+    map = test_map;
+    int y = 2, x = 2;
+    CHECK(charge_minotaur(&y, &x, 2, 4, 'Z') == MOVED_INVALID_DIRECTION);
+}
+
 
 // tests for locate character
 TEST_CASE("locate_character finds player") {

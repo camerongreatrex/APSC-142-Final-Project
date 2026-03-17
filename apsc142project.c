@@ -88,24 +88,12 @@ int main(void) {
     int minotaur_y = 9;
     int minotaur_x = 8;
 
-    int isRevealed = 1;
-
     // Loop until we hit the end of input
     // Input holds the user input
     char input = 0;
 
     while (input != EOF && input != 4) {
-        // toggle revealed map
-        // if (input == 103) {
-        //     isRevealed = !isRevealed;
-        // }
-
-        // print the full map if it's revealed, otherwise print the partially revealed map
-        if (isRevealed) {
-            print_map();
-        } //else {
-        //     print_revealed_map(player_y, player_x);
-        // }
+        print_map();
 
         // check win/loss after printing so the final game state is always shown
         if (check_win(player_y, player_x) == YOU_WIN) {
