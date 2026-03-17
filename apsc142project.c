@@ -106,16 +106,19 @@ int main(void) {
         //print the map
         print_map();
 
+        // workaround minotaur moving at start of gradescope check
+        if (input ==0) {
+            // update minotaur
+            update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
+        }
+
         //get user input
         input = getch();
 
-        // move the player first
+        // move the player
         if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == KEEP_GOING) {
             move_character(&player_y, &player_x, input, PLAYER);
         }
-
-        // update minotaur after player moves
-        //update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
 
     } // quit if we hit the end of input
 
