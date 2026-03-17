@@ -95,7 +95,19 @@ int main(void) {
     char input = 0;
 
     while (input != EOF && input != 4) {
-        // check win/loss immediately after player moves, before reprint
+        // toggle revealed map
+        if (input == 103) {
+            isRevealed = !isRevealed;
+        }
+
+        // print the full map if it's revealed, otherwise print the partially revealed map
+        if (isRevealed) {
+            print_map();
+        } else {
+            print_revealed_map(player_y, player_x);
+        }
+
+        // check win/loss after printing so the final game state is always shown
         if (check_win(player_y, player_x) == YOU_WIN) {
             printf("Congratulations! You win!\n");
             exit(0);
@@ -103,18 +115,6 @@ int main(void) {
         if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == YOU_LOSE) {
             printf("Sorry, you lose.\n");
             exit(0);
-        }
-
-        // toggle revealed map
-        if (input == 103) {
-            isRevealed = !isRevealed;
-        }
-        
-        // print the full map if it's revealed, otherwise print the partiallyrevealed map
-        if (isRevealed) {
-            print_map();
-        } else {
-            print_revealed_map(player_y, player_x);
         }
 
         // update minotaur
