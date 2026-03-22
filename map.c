@@ -86,47 +86,52 @@ int locate_character(char character, int *character_y, int *character_x) {
 
 
 char *load_map(char *filename, int *map_height, int *map_width) {
+    // Try to open the file
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         return NULL;
     }
+    char *loaded_map = NULL;  // will grow with realloc
+    int rows = 0;
+    int cols = 0;
 
-    int rows = 0, cols = 0, len = 0;
-    int c;
-
-    // First pass: count rows and measure width from first row
-    while ((c = fgetc(file)) != EOF) {
-        if (c == '\n') {
-            if (rows == 0) {
-                cols = (len + 2) / 3;
-            }
-            rows++;
-            len = 0;
-        } else {
-            len++;
+    // buffer big enough for one line, each symbol takes 3 chars (symbol + 2 spaces)
+    // buffer handles any  map width
+    char line_buffer[256];
+    while (fgets(line_buffer, sizeof(line_buffer), file) != NULL) {
+        // count symbols on this line (every 3rd character starting at index 0)
+        int line_cols = 0;
+        for (int i = 0; line_buffer[i] != '\0' && line_buffer[i] != '\n'; i += 3) {
+            line_cols++;
         }
-    }
-
-    char *loaded_map = malloc(rows * cols);
-    if (loaded_map == NULL) {
-        fclose(file);
-        return NULL;
-    }
-
-    // Second pass: fill map using nested for loops
-    rewind(file);
-    for (int y = 0; y < rows; y++) {
-        for (int x = 0; x < cols; x++) {
-            loaded_map[y * cols + x] = fgetc(file); // read symbol
-            if (x < cols - 1) {
-                fgetc(file); // skip separator space 1
-                fgetc(file); // skip separator space 2
-            }
+        if (rows == 0) {       // first row sets the width
+            cols = line_cols;
         }
-        fgetc(file); // skip newline
+
+        char *temp = realloc(loaded_map, (rows + 1) * cols * sizeof(char));
+        if (temp == NULL) {
+            free(loaded_map);
+            fclose(file);
+            return NULL;
+        }
+        loaded_map = temp;
+
+        // copy this row's symbols into the map
+        for (int i = 0; i < cols; i++) {
+            loaded_map[rows * cols + i] = line_buffer[i * 3];
+        }
+
+        rows++;
     }
 
     fclose(file);
+
+    // if nothing was read, return NULL
+    if (rows == 0 || cols == 0) {
+        free(loaded_map);
+        return NULL;
+    }
+
     *map_height = rows;
     *map_width = cols;
     return loaded_map;
