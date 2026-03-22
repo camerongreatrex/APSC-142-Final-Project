@@ -86,6 +86,53 @@ int locate_character(char character, int *character_y, int *character_x) {
 
 
 char *load_map(char *filename, int *map_height, int *map_width) {
-    //implement in week 4 of project
-    return NULL;
+    // Try to open the file
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        return NULL;
+    }
+    char *loaded_map = NULL;  // will grow with realloc
+    int rows = 0;
+    int cols = 0;
+
+    // buffer big enough for one line, each symbol takes 3 chars (symbol + 2 spaces)
+    // buffer handles any  map width
+    char line_buffer[256];
+    while (fgets(line_buffer, sizeof(line_buffer), file) != NULL) {
+        // count symbols on this line (every 3rd character starting at index 0)
+        int line_cols = 0;
+        for (int i = 0; line_buffer[i] != '\0' && line_buffer[i] != '\n'; i += 3) {
+            line_cols++;
+        }
+        if (rows == 0) {       // first row sets the width
+            cols = line_cols;
+        }
+
+        char *temp = realloc(loaded_map, (rows + 1) * cols * sizeof(char));
+        if (temp == NULL) {
+            free(loaded_map);
+            fclose(file);
+            return NULL;
+        }
+        loaded_map = temp;
+
+        // copy this row's symbols into the map
+        for (int i = 0; i < cols; i++) {
+            loaded_map[rows * cols + i] = line_buffer[i * 3];
+        }
+
+        rows++;
+    }
+
+    fclose(file);
+
+    // if nothing was read, return NULL
+    if (rows == 0 || cols == 0) {
+        free(loaded_map);
+        return NULL;
+    }
+
+    *map_height = rows;
+    *map_width = cols;
+    return loaded_map;
 }

@@ -74,19 +74,25 @@ int main(void) {
     // should randomly move around 1 tile per turn
     char charge_direction = SEES_NOTHING;
 
-    // Set the width and height for the hardcoded map
-    width = HARDCODED_WIDTH;
-    height = HARDCODED_HEIGHT;
-    // Use the hardcoded map by setting the global map variable equal to it
-    map = hardcoded_map;
+    // Load the map from file
+    map = load_map(MAP_NAME, &height, &width);
+    if (map == NULL) {
+        return ERR_NO_MAP;
+    }
 
-    // Eventually, the player position should be determined from the map, however, hardcode it for now
-    int player_y = 5;
-    int player_x = 5;
+    // Find the player position from the map
+    int player_y, player_x;
+    if (locate_character(PLAYER, &player_y, &player_x) == CHARACTER_NOT_FOUND) {
+        free(map);
+        return ERR_NO_PLAYER;
+    }
 
-    // We also need the Minotaur position. Again, hardcode the starting position for now.
-    int minotaur_y = 9;
-    int minotaur_x = 8;
+    // Find the minotaur position from the map
+    int minotaur_y, minotaur_x;
+    if (locate_character(MINOTAUR, &minotaur_y, &minotaur_x) == CHARACTER_NOT_FOUND) {
+        free(map);
+        return ERR_NO_MINOTAUR;
+    }
 
     int isRevealed = 1;
 
@@ -129,6 +135,8 @@ int main(void) {
         }
 
     } // quit if we hit the end of input
+
+    free(map);
 
     // You must return the correct error code from defines.h from main depending on what happened
     return NO_ERROR;
