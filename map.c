@@ -97,7 +97,7 @@ char *load_map(char *filename, int *map_height, int *map_width) {
 
     // buffer big enough for one line, each symbol takes 3 chars (symbol + 2 spaces)
     // buffer handles any  map width
-    char line_buffer[256];
+    char line_buffer[256] = {'0'};
     while (fgets(line_buffer, sizeof(line_buffer), file) != NULL) {
         // count symbols on this line (every 3rd character starting at index 0)
         int line_cols = 0;
