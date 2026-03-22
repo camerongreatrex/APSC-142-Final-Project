@@ -97,9 +97,20 @@ int main(void) {
     // Loop until we hit the end of input
     // Input holds the user input
     char input = 0;
+    int isRevealed = 1;
 
     while (input != EOF && input != 4) {
-        print_map();
+        // toggle revealed map
+        if (input == 103) {
+            isRevealed = !isRevealed;
+        }
+
+        // print the full map if it's revealed, otherwise print the partially revealed map
+        if (isRevealed) {
+            print_map();
+        } else {
+            print_revealed_map(player_y, player_x);
+        }
 
         // check win/loss after printing so the final game state is always shown
         if (check_win(player_y, player_x) == YOU_WIN) {

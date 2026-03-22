@@ -147,10 +147,12 @@ int charge_minotaur(int *y, int *x, int player_y, int player_x, char charge_dire
     for (int step = 0; step < MINOTAUR_CHARGE_STEP_SIZE; step++) {
         // Move the minotaur in the direction it is charging
         int move_result = move_character(y, x, charge_direction, MINOTAUR);
+
         // If the minotaur reaches the player, the player is caught
         if (*y == player_y && *x == player_x) {
             return CAUGHT_PLAYER;
         }
+        
         // If the minotaur hits a wall, calculate the position of the wall it is smashing into
         if (move_result == MOVED_WALL) {
             // Calculate the position of the wall the minotaur is smashing into
