@@ -97,9 +97,14 @@ int main(void) {
     // Loop until we hit the end of input
     // Input holds the user input
     char input = 0;
+    int isRevealed = 1;
 
     while (input != EOF && input != 4) {
-        print_map();
+        if (isRevealed) {
+            print_revealed_map(player_y, player_x);
+        } else {
+            print_map();
+        }
 
         // check win/loss after printing so the final game state is always shown
         if (check_win(player_y, player_x) == YOU_WIN) {
@@ -116,6 +121,12 @@ int main(void) {
 
         // get user input
         input = getch();
+
+        // toggle revealed map on and off
+        if (input == 'g') {
+            isRevealed = !isRevealed;
+            continue;
+        }
 
         // move the player
         if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == KEEP_GOING) {

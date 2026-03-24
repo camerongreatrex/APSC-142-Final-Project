@@ -143,7 +143,7 @@ int charge_minotaur(int *y, int *x, int player_y, int player_x, char charge_dire
         return MOVED_INVALID_DIRECTION;
     }
 
-    // Charge the minotaur
+    // iterate the amount of tiles the minotaur moves each charge
     for (int step = 0; step < MINOTAUR_CHARGE_STEP_SIZE; step++) {
         // Move the minotaur in the direction it is charging
         int move_result = move_character(y, x, charge_direction, MINOTAUR);
