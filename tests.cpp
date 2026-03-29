@@ -43,6 +43,9 @@ TEST_CASE("print_map runs without crashing") {
 
 // Tests for load_map
 TEST_CASE("load_map is empty") {
+    int h, w;
+    char *result = load_map("nonexistent_file.txt", &h, &w);
+    CHECK(result == NULL);
 }
 
 TEST_SUITE_END();
