@@ -47,6 +47,11 @@ TEST_CASE("load_map is empty") {
     CHECK(result == NULL);
 }
 
+TEST_CASE("height and width is empty") {
+    int h = 0, w = 0;
+    CHECK((h == 0 || w == 0) == NULL);
+}
+
 TEST_CASE("load_map file does not exist") {
     int h, w;
     char *result = load_map("fake.txt", &h, &w);
