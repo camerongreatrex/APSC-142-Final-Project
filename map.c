@@ -53,16 +53,18 @@ void print_map(void) {
 }
 
 void print_revealed_map(int player_y, int player_x) {
+    // Loop to iterate through x and y
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
+            // print the x and y map contents whenever the player is in view
             if (abs(y - player_y) <= PLAYER_VISION_DISTANCE &&
                 abs(x - player_x) <= PLAYER_VISION_DISTANCE) {
                 printc(map[y * width + x]);
+                // if not in view just print empty
                 } else {
                     printc(EMPTY);
                 }
 
-            // Always print the inter-symbol space (exactly like print_map)
             if (x < width - 1) {
                 printc(EMPTY);
             }

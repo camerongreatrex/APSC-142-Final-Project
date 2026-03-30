@@ -48,6 +48,20 @@ TEST_CASE("load_map is empty") {
     CHECK(result == NULL);
 }
 
+TEST_CASE("load_map successfully loads map2.txt and returns correct dimensions and data") {
+    int h = 0, w = 0;
+    char *result = load_map("map2.txt", &h, &w);
+
+    REQUIRE(result != NULL);          // file missing check
+    CHECK(h == 8);                    // map2.txt has exactly 8 rows
+    CHECK(w == 8);                    // map2.txt has exactly 8 columns
+
+    // sanity check on a few known tiles
+    CHECK(result[3 * 8 + 2] == PLAYER);   // P is at row 3, col 2
+    CHECK(result[5 * 8 + 4] == MINOTAUR); // M is at row 5, col 4
+
+    free(result);   // must free the memory we allocated
+}
 TEST_SUITE_END();
 
 /* tests for character.c */
