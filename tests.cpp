@@ -48,6 +48,18 @@ TEST_CASE("load_map is empty") {
     CHECK(result == NULL);
 }
 
+TEST_CASE("load_map has valid characters") {
+    int h, w;
+    char *result = load_map("map.txt", &h, &w);
+    for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w; j++) {
+            char c = result[i * w + j];
+            bool valid = (c == ' ' || c == 'P' || c == 'M' || c == 'W');
+            CHECK(valid);
+        }
+    }
+}
+
 TEST_CASE("load_map loads map.txt successfully") {
     int h, w;
     char *result = load_map("map.txt", &h, &w);
