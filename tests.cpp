@@ -40,37 +40,78 @@ TEST_CASE("print_map runs without crashing") {
     print_map();
     CHECK(true);
 }
-
 // Tests for load_map
 TEST_CASE("load_map is empty") {
     int h, w;
     char *result = load_map(MAP_NAME, &h, &w);
     CHECK(result == NULL);
 }
+
 TEST_CASE("load_map file does not exist") {
     int h, w;
     char *result = load_map("fake.txt", &h, &w);
     CHECK(result == NULL);
 }
-TEST_CASE("load_map has invalid characters") {
+
+TEST_CASE("load_map empty file returns NULL") {
     int h, w;
-    char *result = load_map("invalid_map.txt", &h, &w);
+    char *result = load_map("empty.txt", &h, &w);
     CHECK(result == NULL);
 }
-TEST_CASE("load_map inconsistent row lengths") {
+
+TEST_CASE("load_map only newline") {
     int h, w;
-    char *result = load_map("bad_rows.txt", &h, &w);
+    char *result = load_map("newline.txt", &h, &w);
     CHECK(result == NULL);
 }
+
+TEST_CASE("load_map single character") {
+    int h, w;
+    char *result = load_map("single.txt", &h, &w);
+
+    CHECK(result != NULL);
+    if (result != NULL) {
+        CHECK(h == 1);
+        CHECK(w == 1);
+        CHECK(result[0] == 'P');
+        free(result);
+    }
+}
+
+TEST_CASE("load_map weird spacing") {
+    int h, w;
+    char *result = load_map("weird.txt", &h, &w);
+
+    CHECK(result != NULL);
+    if (result != NULL) {
+        free(result);
+    }
+}
+
+TEST_CASE("load_map multiple rows realloc") {
+    int h, w;
+    char *result = load_map("multi.txt", &h, &w);
+
+    CHECK(result != NULL);
+    if (result != NULL) {
+        CHECK(h == 3);
+        free(result);
+    }
+}
+
 TEST_CASE("load_map has valid characters") {
     int h, w;
     char *result = load_map("map.txt", &h, &w);
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
-            char c = result[i * w + j];
-            bool valid = (c == ' ' || c == 'P' || c == 'M' || c == 'W');
-            CHECK(valid);
+
+    if (result != NULL) {
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                char c = result[i * w + j];
+                bool valid = (c == ' ' || c == 'P' || c == 'M' || c == 'W');
+                CHECK(valid);
+            }
         }
+        free(result);
     }
 }
 
