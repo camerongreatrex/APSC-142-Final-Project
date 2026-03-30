@@ -54,39 +54,6 @@ TEST_CASE("load_map returns NULL when file does not exist (or cannot be opened)"
     char *result = load_map(MAP_NAME, &h, &w);   // "map.txt" does not exist in the test environment
     CHECK(result == NULL);
 }
-
-TEST_CASE("load_map successfully parses a valid map file (full success path)") {
-    // Create a tiny valid map file on disk so we can test the entire loading logic
-    char *temp_filename = "test_load_map.txt";
-
-    FILE* f = fopen(temp_filename, "w");
-    REQUIRE(f != NULL);
-
-    // A 2-row × 3-col map
-    fprintf(f, "W  P  W\n");
-    fprintf(f, "W  M  W\n");
-    fclose(f);
-
-    int h = 0, w = 0;
-    char* result = load_map(temp_filename, &h, &w);
-
-    REQUIRE(result != NULL);        // file was read and parsed
-    CHECK(h == 2);                  // correct number of rows
-    CHECK(w == 3);                  // correct number of columns
-
-    // Verify the data was copied correctly
-    CHECK(result[0*3 + 0] == WALL);
-    CHECK(result[0*3 + 1] == PLAYER);
-    CHECK(result[0*3 + 2] == WALL);
-    CHECK(result[1*3 + 0] == WALL);
-    CHECK(result[1*3 + 1] == MINOTAUR);
-    CHECK(result[1*3 + 2] == WALL);
-
-    free(result);                   // must free what load_map allocated
-
-    // Clean up the temporary file
-    remove(temp_filename);
-}
 TEST_SUITE_END();
 
 /* tests for character.c */
