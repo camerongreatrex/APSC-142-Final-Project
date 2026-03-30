@@ -52,7 +52,6 @@ void print_map(void) {
     }
 }
 
-
 void print_revealed_map(int player_y, int player_x) {
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {

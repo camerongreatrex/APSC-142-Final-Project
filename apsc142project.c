@@ -116,9 +116,6 @@ int main(void) {
             exit(0);
         }
 
-        // update minotaur
-        update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
-
         // get user input
         input = getch();
 
@@ -127,6 +124,9 @@ int main(void) {
             isRevealed = !isRevealed;
             continue;
         }
+
+        // update minotaur
+        update_minotaur(player_y, player_x, &minotaur_y, &minotaur_x, &charge_direction);
 
         // move the player
         if (check_loss(player_y, player_x, minotaur_y, minotaur_x) == KEEP_GOING) {
