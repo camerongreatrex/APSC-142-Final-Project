@@ -47,7 +47,21 @@ TEST_CASE("load_map is empty") {
     char *result = load_map(MAP_NAME, &h, &w);
     CHECK(result == NULL);
 }
-
+TEST_CASE("load_map file does not exist") {
+    int h, w;
+    char *result = load_map("fake.txt", &h, &w);
+    CHECK(result == NULL);
+}
+TEST_CASE("load_map has invalid characters") {
+    int h, w;
+    char *result = load_map("invalid_map.txt", &h, &w);
+    CHECK(result == NULL);
+}
+TEST_CASE("load_map inconsistent row lengths") {
+    int h, w;
+    char *result = load_map("bad_rows.txt", &h, &w);
+    CHECK(result == NULL);
+}
 TEST_CASE("load_map has valid characters") {
     int h, w;
     char *result = load_map("map.txt", &h, &w);
