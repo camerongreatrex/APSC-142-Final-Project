@@ -54,35 +54,17 @@ void print_map(void) {
 
 
 void print_revealed_map(int player_y, int player_x) {
-    // Clamp vertical range to map bounds so we don't print out-of-bounds rows
-    int dy_min = -PLAYER_VISION_DISTANCE;
-    if (player_y - PLAYER_VISION_DISTANCE < 0) {
-        dy_min = -player_y;
-    }
-    int dy_max = PLAYER_VISION_DISTANCE;
-    if (player_y + PLAYER_VISION_DISTANCE >= height) {
-        dy_max = height - 1 - player_y;
-    }
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            if (abs(y - player_y) <= PLAYER_VISION_DISTANCE &&
+                abs(x - player_x) <= PLAYER_VISION_DISTANCE) {
+                printc(map[y * width + x]);
+                } else {
+                    printc(EMPTY);
+                }
 
-    // Clamp horizontal range to map bounds so we don't print out-of-bounds columns
-    int dx_min = -PLAYER_VISION_DISTANCE;
-    if (player_x - PLAYER_VISION_DISTANCE < 0) {
-        dx_min = -player_x;
-    }
-    int dx_max = PLAYER_VISION_DISTANCE;
-    if (player_x + PLAYER_VISION_DISTANCE >= width) {
-        dx_max = width - 1 - player_x;
-    }
-
-    // Loop over each row in the vision window
-    for (int dy = dy_min; dy <= dy_max; dy++) {
-        // Loop over each column in the vision window
-        for (int dx = dx_min; dx <= dx_max; dx++) {
-            int y = player_y + dy;
-            int x = player_x + dx;
-            printc(map[y * width + x]);
-            // Space between characters, matching print_map style
-            if (dx < dx_max) {
+            // Always print the inter-symbol space (exactly like print_map)
+            if (x < width - 1) {
                 printc(EMPTY);
             }
         }
