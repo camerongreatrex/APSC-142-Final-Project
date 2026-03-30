@@ -48,6 +48,27 @@ TEST_CASE("load_map is empty") {
     CHECK(result == NULL);
 }
 
+TEST_CASE("load_map loads map.txt successfully") {
+    int h, w;
+    char *result = load_map("map.txt", &h, &w);
+    CHECK(result != NULL);
+    if (result != NULL) {
+        CHECK(w == 11);
+        CHECK(h == 12);
+        free(result);
+    }
+}
+
+TEST_CASE("load_map loads map2.txt successfully") {
+    int h, w;
+    char *result = load_map("map2.txt", &h, &w);
+    CHECK(result != NULL);
+    if (result != NULL) {
+        CHECK(w == 8);
+        CHECK(h == 8);
+        free(result);
+    }
+}
 TEST_SUITE_END();
 
 /* tests for character.c */
