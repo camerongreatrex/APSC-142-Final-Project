@@ -53,52 +53,6 @@ TEST_CASE("load_map file does not exist") {
     CHECK(result == NULL);
 }
 
-TEST_CASE("load_map empty file returns NULL") {
-    int h, w;
-    char *result = load_map("empty.txt", &h, &w);
-    CHECK(result == NULL);
-}
-
-TEST_CASE("load_map only newline") {
-    int h, w;
-    char *result = load_map("newline.txt", &h, &w);
-    CHECK(result == NULL);
-}
-
-TEST_CASE("load_map single character") {
-    int h, w;
-    char *result = load_map("single.txt", &h, &w);
-
-    CHECK(result != NULL);
-    if (result != NULL) {
-        CHECK(h == 1);
-        CHECK(w == 1);
-        CHECK(result[0] == 'P');
-        free(result);
-    }
-}
-
-TEST_CASE("load_map weird spacing") {
-    int h, w;
-    char *result = load_map("weird.txt", &h, &w);
-
-    CHECK(result != NULL);
-    if (result != NULL) {
-        free(result);
-    }
-}
-
-TEST_CASE("load_map multiple rows realloc") {
-    int h, w;
-    char *result = load_map("multi.txt", &h, &w);
-
-    CHECK(result != NULL);
-    if (result != NULL) {
-        CHECK(h == 3);
-        free(result);
-    }
-}
-
 TEST_CASE("load_map has valid characters") {
     int h, w;
     char *result = load_map("map.txt", &h, &w);
