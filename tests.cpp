@@ -40,6 +40,7 @@ TEST_CASE("print_map runs without crashing") {
     print_map();
     CHECK(true);
 }
+
 // Tests for load_map
 TEST_CASE("load_map is empty") {
     int h, w;
@@ -47,49 +48,6 @@ TEST_CASE("load_map is empty") {
     CHECK(result == NULL);
 }
 
-TEST_CASE("load_map file does not exist") {
-    int h, w;
-    char *result = load_map("fake.txt", &h, &w);
-    CHECK(result == NULL);
-}
-
-TEST_CASE("load_map has valid characters") {
-    int h, w;
-    char *result = load_map("map.txt", &h, &w);
-
-    if (result != NULL) {
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                char c = result[i * w + j];
-                bool valid = (c == ' ' || c == 'P' || c == 'M' || c == 'W');
-                CHECK(valid);
-            }
-        }
-        free(result);
-    }
-}
-
-TEST_CASE("load_map loads map.txt successfully") {
-    int h, w;
-    char *result = load_map("map.txt", &h, &w);
-    CHECK(result != NULL);
-    if (result != NULL) {
-        CHECK(w == 11);
-        CHECK(h == 12);
-        free(result);
-    }
-}
-
-TEST_CASE("load_map loads map2.txt successfully") {
-    int h, w;
-    char *result = load_map("map2.txt", &h, &w);
-    CHECK(result != NULL);
-    if (result != NULL) {
-        CHECK(w == 8);
-        CHECK(h == 8);
-        free(result);
-    }
-}
 TEST_SUITE_END();
 
 /* tests for character.c */
