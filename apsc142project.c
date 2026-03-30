@@ -99,11 +99,9 @@ int main(void) {
     char input = 0;
     int isRevealed = 0;
 
-    while (input != EOF && input != 4) {
-        if (isRevealed) {
-            print_map();
-        } else {
-            print_revealed_map(player_y, player_x);
+    while (1) {
+        if (input == EOF || input == 4) {
+            break;
         }
 
         // check win/loss after printing so the final game state is always shown
@@ -121,6 +119,12 @@ int main(void) {
 
         // get user input
         input = getch();
+
+        if (isRevealed) {
+            print_map();
+        } else {
+            print_revealed_map(player_y, player_x);
+        }
 
         //toggle revealed map on and off
         if (input == 'g') {
