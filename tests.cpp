@@ -48,6 +48,14 @@ TEST_CASE("load_map returns NULL for missing file") {
     CHECK(result == NULL);
 }
 
+TEST_CASE("load_map returns NULL for empty file") {
+    FILE *f = fopen("empty_map.txt", "w");
+    fclose(f);
+    int h, w;
+    char *result = load_map("empty_map.txt", &h, &w);
+    CHECK(result == NULL);
+}
+
 TEST_CASE("load_map loads map.txt successfully") {
     int h, w;
     char *result = load_map("map.txt", &h, &w);
