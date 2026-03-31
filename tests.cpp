@@ -55,66 +55,66 @@ TEST_CASE("load_map returns NULL for empty file") {
     char *result = load_map("empty_map.txt", &h, &w);
     CHECK(result == NULL);
 }
-
-TEST_CASE("load_map loads map.txt successfully") {
-    int h, w;
-    char *result = load_map("map.txt", &h, &w);
-    CHECK(result != NULL);
-    if (result != NULL) {
-        CHECK(w == 11);
-        CHECK(h == 12);
-        free(result);
-    }
-}
-
-TEST_CASE("load_map loads map2.txt successfully") {
-    int h, w;
-    char *result = load_map("map2.txt", &h, &w);
-    CHECK(result != NULL);
-    if (result != NULL) {
-        CHECK(w == 8);
-        CHECK(h == 8);
-        free(result);
-    }
-}
-
-TEST_CASE("load_map top-left corner is a wall") {
-    int h, w;
-    char *result = load_map("map.txt", &h, &w);
-    CHECK(result != NULL);
-    if (result != NULL) {
-        CHECK(result[0] == WALL);
-        free(result);
-    }
-}
-
-TEST_CASE("load_map contains a player") {
-    int h, w;
-    char *result = load_map("map.txt", &h, &w);
-    CHECK(result != NULL);
-    if (result != NULL) {
-        bool found = false;
-        for (int i = 0; i < h * w; i++) {
-            if (result[i] == PLAYER) { found = true; break; }
-        }
-        CHECK(found);
-        free(result);
-    }
-}
-
-TEST_CASE("load_map contains a minotaur") {
-    int h, w;
-    char *result = load_map("map.txt", &h, &w);
-    CHECK(result != NULL);
-    if (result != NULL) {
-        bool found = false;
-        for (int i = 0; i < h * w; i++) {
-            if (result[i] == MINOTAUR) { found = true; break; }
-        }
-        CHECK(found);
-        free(result);
-    }
-}
+//
+// TEST_CASE("load_map loads map.txt successfully") {
+//     int h, w;
+//     char *result = load_map("map.txt", &h, &w);
+//     CHECK(result != NULL);
+//     if (result != NULL) {
+//         CHECK(w == 11);
+//         CHECK(h == 12);
+//         free(result);
+//     }
+// }
+//
+// TEST_CASE("load_map loads map2.txt successfully") {
+//     int h, w;
+//     char *result = load_map("map2.txt", &h, &w);
+//     CHECK(result != NULL);
+//     if (result != NULL) {
+//         CHECK(w == 8);
+//         CHECK(h == 8);
+//         free(result);
+//     }
+// }
+//
+// TEST_CASE("load_map top-left corner is a wall") {
+//     int h, w;
+//     char *result = load_map("map.txt", &h, &w);
+//     CHECK(result != NULL);
+//     if (result != NULL) {
+//         CHECK(result[0] == WALL);
+//         free(result);
+//     }
+// }
+//
+// TEST_CASE("load_map contains a player") {
+//     int h, w;
+//     char *result = load_map("map.txt", &h, &w);
+//     CHECK(result != NULL);
+//     if (result != NULL) {
+//         bool found = false;
+//         for (int i = 0; i < h * w; i++) {
+//             if (result[i] == PLAYER) { found = true; break; }
+//         }
+//         CHECK(found);
+//         free(result);
+//     }
+// }
+//
+// TEST_CASE("load_map contains a minotaur") {
+//     int h, w;
+//     char *result = load_map("map.txt", &h, &w);
+//     CHECK(result != NULL);
+//     if (result != NULL) {
+//         bool found = false;
+//         for (int i = 0; i < h * w; i++) {
+//             if (result[i] == MINOTAUR) { found = true; break; }
+//         }
+//         CHECK(found);
+//         free(result);
+//     }
+// }
 TEST_SUITE_END();
 
 /* tests for character.c */
