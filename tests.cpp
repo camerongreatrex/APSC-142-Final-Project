@@ -42,17 +42,70 @@ TEST_CASE("print_map runs without crashing") {
 }
 
 // Tests for load_map
-TEST_CASE("load_map is empty") {
+TEST_CASE("load_map returns NULL for missing file") {
     int h, w;
-    char *result = load_map(MAP_NAME, &h, &w);
+    char *result = load_map("nonexistent_file.txt", &h, &w);
     CHECK(result == NULL);
 }
 
-// Tests for load_map
-TEST_CASE("load_map returns NULL when file does not exist (or cannot be opened)") {
+TEST_CASE("load_map loads map.txt successfully") {
     int h, w;
-    char *result = load_map(MAP_NAME, &h, &w);   // "map.txt" does not exist in the test environment
-    CHECK(result == NULL);
+    char *result = load_map("map.txt", &h, &w);
+    CHECK(result != NULL);
+    if (result != NULL) {
+        CHECK(w == 11);
+        CHECK(h == 12);
+        free(result);
+    }
+}
+
+TEST_CASE("load_map loads map2.txt successfully") {
+    int h, w;
+    char *result = load_map("map2.txt", &h, &w);
+    CHECK(result != NULL);
+    if (result != NULL) {
+        CHECK(w == 8);
+        CHECK(h == 8);
+        free(result);
+    }
+}
+
+TEST_CASE("load_map top-left corner is a wall") {
+    int h, w;
+    char *result = load_map("map.txt", &h, &w);
+    CHECK(result != NULL);
+    if (result != NULL) {
+        CHECK(result[0] == WALL);
+        free(result);
+    }
+}
+
+TEST_CASE("load_map contains a player") {
+    int h, w;
+    char *result = load_map("map.txt", &h, &w);
+    CHECK(result != NULL);
+    if (result != NULL) {
+        bool found = false;
+        for (int i = 0; i < h * w; i++) {
+            if (result[i] == PLAYER) { found = true; break; }
+        }
+        CHECK(found);
+        free(result);
+    }
+}
+
+TEST_CASE("load_map contains a minotaur") {
+    int h, w;
+    char *result = load_map("map.txt", &h, &w);
+    CHECK(result != NULL);
+    if (result != NULL) {
+        bool found = false;
+        for (int i = 0; i < h * w; i++) {
+            if (result[i] == MINOTAUR) { found = true; break; }
+        }
+        CHECK(found);
+        free(result);
+    }
 }
 TEST_SUITE_END();
 
