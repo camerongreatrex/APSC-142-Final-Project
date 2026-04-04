@@ -125,7 +125,7 @@ int move_character(int *y, int *x, char direction, char character) {
     map[*y * width + *x] = EMPTY; // replace old spot with EMPTY
     map[new_y * width + new_x] = character; // update new spot with character
 
-    // Update coordinates
+    // Update coordinates w/ pointers to new ones
     *y = new_y;
     *x = new_x;
 

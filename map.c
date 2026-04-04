@@ -19,7 +19,8 @@ extern int width, height;
  * in the colours used in the demo.
  * @param c
  */
-static void printc(char c) {
+static void printc(char c) //set colours of map chars
+{
     switch (c) {
         case WALL:
             change_text_colour(BLUE);
@@ -37,7 +38,7 @@ static void printc(char c) {
 }
 
 void print_map(void) {
-    // Iterate through both dimensions
+    // Iterate through xy dimensions with nested for loops
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             // Print the current map at index x,y
@@ -53,14 +54,14 @@ void print_map(void) {
 }
 
 void print_revealed_map(int player_y, int player_x) {
-    // Loop to iterate through x and y
+    // Loop to iterate through x and y again
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             // print the x and y map contents whenever the player is in view
             if (abs(y - player_y) <= PLAYER_VISION_DISTANCE &&
                 abs(x - player_x) <= PLAYER_VISION_DISTANCE) {
                 printc(map[y * width + x]);
-                // if not in view just print empty
+                // if player not in view, just print empty
                 } else {
                     printc(EMPTY);
                 }
@@ -75,7 +76,7 @@ void print_revealed_map(int player_y, int player_x) {
 
 int locate_character(char character, int *character_y, int *character_x) {
     // Attempt to find the character in the map and return a status code indicating
-    // if they were present
+    // if they were present:
     if (character_y == NULL || character_x == NULL) {
         return CHARACTER_NOT_FOUND;
     }
@@ -96,7 +97,7 @@ int locate_character(char character, int *character_y, int *character_x) {
 
 char *load_map(char *filename, int *map_height, int *map_width) {
     // Try to open the file
-    FILE *file = fopen(filename, "r");
+    FILE *file = fopen(filename, "r"); //read mode
     if (file == NULL) {
         return NULL;
     }
