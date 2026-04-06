@@ -430,6 +430,3 @@ TEST_CASE("check_loss continues when player not caught") {
 }
 
 TEST_SUITE_END();
-
-
-void func()
